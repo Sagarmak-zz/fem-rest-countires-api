@@ -20,9 +20,49 @@ body {
   font-size: 14px;
 }
 
+/* Helper Methods */
+.container {
+  margin: 0 auto;
+  max-width: 90%;
+  padding: 2rem 1rem;
+}
+
+/* Flexbox Helper Methods */
+.flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.align-center {
+  align-items: center;
+}
+
+.bold {
+  font-weight: 800;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* Themes */
 .light-bg {
   background: #fafafa;
 }
 .dark-bg {
   background: #202c37;
+}
+
+.navbar {
+  padding: 1.8rem 8rem;
+  background: white;
+}
+.navbar .nav-title {
+  font-size: 1.4rem;
 }
