@@ -1,0 +1,28 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  min-width: 100%;
+  line-height: 1;
+  background: hsl(0, 0%, 98%);
+  color: hsl(234, 12%, 34%);
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+}
+
+.light-bg {
+  background: #fafafa;
+}
+.dark-bg {
+  background: #202c37;
+}
