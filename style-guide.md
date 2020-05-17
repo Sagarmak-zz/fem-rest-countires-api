@@ -39,3 +39,10 @@ Some suggestions can be found below:
 - [Font Awesome](https://fontawesome.com)
 - [IcoMoon](https://icomoon.io)
 - [Ionicons](https://ionicons.com)
+
+## API's to use
+
+- [All Countries](https://restcountries.eu/rest/v2/all)
+- [Countries via Region](https://restcountries.eu/rest/v2/region/europe)
+
+> **Note:** The **Regional API** accepts the regions at the end, namely Africa, America, Asia, Europe, Oceania
