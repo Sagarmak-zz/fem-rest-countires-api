@@ -110,6 +110,7 @@ body {
   border-radius: 5px;
   box-shadow: 1px 3px 8px -4px rgba(0,0,0,0.4);
   margin-bottom: 2rem;
+  margin-right: 2rem;
 }
 .container .main .card img {
   width: 17rem;

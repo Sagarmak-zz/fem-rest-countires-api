@@ -8,7 +8,7 @@
 
   <title>Frontend Mentor | Rest Countries API</title>
 </head>
-<body>
+<body onload="fetchAllCountries()">
   <div class="navbar flex justify-between align-center">
     <a class="bold nav-title">Where in the world?</a>
     <a class="bold mav-subtitle">Dark Mode</a>
@@ -30,108 +30,81 @@
         </select>
       </div>
     </div>
-    <div class="main flex align-center justify-between flex-wrap">
+    <div class="main flex align-center flex-wrap">
       <div class="card">
         <img src="./design/afg.svg" alt="">
         <div class="card-details">
-          <div class="title fs-1_2 bold pb-1">Afganistan</div>
+          <div class="title fs-1_2 bold pb-1">Dummy card</div>
           <div>
             <div class="pb-0_4">
               <span class="bold">Population:</span>
-              <span>27, 657, 145</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Region:</span>
-              <span>Asia</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Capital:</span>
-              <span>Istanbul</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./design/afg.svg" alt="">
-        <div class="card-details">
-          <div class="title fs-1_2 bold pb-1">Afganistan</div>
-          <div>
-            <div class="pb-0_4">
-              <span class="bold">Population:</span>
-              <span>27, 657, 145</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Region:</span>
-              <span>Asia</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Capital:</span>
-              <span>Istanbul</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./design/afg.svg" alt="">
-        <div class="card-details">
-          <div class="title fs-1_2 bold pb-1">Afganistan</div>
-          <div>
-            <div class="pb-0_4">
-              <span class="bold">Population:</span>
-              <span>27, 657, 145</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Region:</span>
-              <span>Asia</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Capital:</span>
-              <span>Istanbul</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./design/afg.svg" alt="">
-        <div class="card-details">
-          <div class="title fs-1_2 bold pb-1">Afganistan</div>
-          <div>
-            <div class="pb-0_4">
-              <span class="bold">Population:</span>
-              <span>27, 657, 145</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Region:</span>
-              <span>Asia</span>
-            </div>
-            <div class="pb-0_3">
-              <span class="bold">Capital:</span>
-              <span>Istanbul</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="./design/afg.svg" alt="">
-        <div class="card-details">
-          <div class="title fs-1_2 bold pb-1">Afganistan</div>
-          <div>
-            <div class="pb-0_4">
-              <span class="bold">Population:</span>
-              <span>27, 657, 145</span>
+              <span>12, 345, 678</span>
             </div>
             <div class="pb-0_4">
               <span class="bold">Region:</span>
-              <span>Asia</span>
+              <span>No Region</span>
             </div>
             <div class="pb-0_4">
               <span class="bold">Capital:</span>
-              <span>Istanbul</span>
+              <span>No Capital</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    let countries;
+    const url = 'https://restcountries.eu/rest/v2/all';
+
+    function fetchAllCountries() {
+
+      let xhr = new XMLHttpRequest();
+      // OPEN - type, url, async
+      xhr.open('GET', url, true);
+
+      xhr.onprogress = function() {
+        // loading state
+      }
+
+      xhr.onload = function() {
+        if (this.status == 200) {
+          countries = JSON.parse(this.responseText);
+
+          let countriesCards = '';
+          countries.forEach(country => {
+            countriesCards += `
+            <div class="card">
+              <img src="${country.flag}" alt="">
+              <div class="card-details">
+                <div class="title fs-1_2 bold pb-1">${country.name}</div>
+                  <div>
+                    <div class="pb-0_4">
+                      <span class="bold">Population:</span>
+                      <span>${country.population}</span>
+                    </div>
+                    <div class="pb-0_4">
+                      <span class="bold">Region:</span>
+                      <span>${country.region}</span>
+                    </div>
+                    <div class="pb-0_4">
+                      <span class="bold">Capital:</span>
+                      <span>${country.capital}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+            `
+          });
+          let mainSection = document.querySelector('.main').innerHTML = countriesCards;
+        }
+      }
+      xhr.onerror = function() {
+        console.log('err');
+      }
+
+      xhr.send();
+    }
+  </script>
 </body>
 </html>
