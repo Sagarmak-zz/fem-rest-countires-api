@@ -118,7 +118,7 @@ body {
   box-shadow: 1px 3px 8px -4px rgba(0,0,0,0.4);
   margin-bottom: 2rem;
   width: calc(23% - 0.5rem);
-  margin: 0 1rem;
+  margin: 0 0.9rem;
   margin-bottom: 2rem;
 }
 .container .main .loading, .error, .no-result {
