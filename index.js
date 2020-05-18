@@ -1,25 +1,35 @@
 let countries;
+// all countries
 const url = "https://restcountries.eu/rest/v2/all";
-// const url = 'https://restcountries.eu/rest/v2/name/afgee';
+// name-wise countries
+const namedCountries = 'https://restcountries.eu/rest/v2/name/afg';
+// region-wise countries
+const regionalCountries = 'https://restcountries.eu/rest/v2/region/europe';
 
-let loadingState = document.querySelector(".container .main .loading");
-let noResultState = document.querySelector(".container .main .no-result");
+// place content inside this section
+let mainSection = document.querySelector(".main");
+
+
+// 1st, initialize the object
+let xhr = new XMLHttpRequest();
+
+// 2nd, fill in the details in the object
+// OPEN - type, url, async
+xhr.open("GET", url, true);
+
 
 function fetchAllCountries() {
-  let xhr = new XMLHttpRequest();
-  // OPEN - type, url, async
-  xhr.open("GET", url, true);
 
+  // 3rd, if api loading
   xhr.onprogress = function () {
     let noResultOutput = "";
     noResultOutput = `<div class="loading">
           <i class="fas fa-circle-notch fa-spin"></i>
         </div>`;
-    let mainSection = (document.querySelector(
-      ".main"
-    ).innerHTML = noResultOutput);
+    mainSection.innerHTML = noResultOutput;
   };
 
+  // 4th, what should happen when data loads
   xhr.onload = function () {
     if (this.status == 200) {
       countries = JSON.parse(this.responseText);
@@ -49,9 +59,7 @@ function fetchAllCountries() {
             </div>
             `;
       });
-      let mainSection = (document.querySelector(
-        ".main"
-      ).innerHTML = countriesCards);
+      mainSection.innerHTML = countriesCards;
     } else if (xhr.status == 404) {
       // data not found
       let noResultOutput = "";
@@ -60,11 +68,11 @@ function fetchAllCountries() {
             Sorry, no result found!
           </div>
           `;
-      let mainSection = (document.querySelector(
-        ".main"
-      ).innerHTML = noResultOutput);
+      mainSection.innerHTML = noResultOutput;
     }
   };
+
+  // 5th, if error while api fetching
   xhr.onerror = function () {
     let errorOutput = "";
     errorOutput = `
@@ -72,8 +80,16 @@ function fetchAllCountries() {
           There might be some issue fetching data.
         </div>
         `;
-    let mainSection = (document.querySelector(".main").innerHTML = errorOutput);
+    mainSection.innerHTML = errorOutput;
   };
 
   xhr.send();
+}
+
+function fetchSearchedCountries() {
+  // 
+}
+
+function fetchRegionalCountries() {
+
 }
