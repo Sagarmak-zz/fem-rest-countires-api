@@ -72,6 +72,13 @@ body {
   padding-bottom: 1rem;
 }
 
+.d-none {
+  display: none;
+}
+.d-block {
+  display: block;
+}
+
 .navbar {
   padding: 1.8rem 8rem;
   background: white;
@@ -110,14 +117,16 @@ body {
   border-radius: 5px;
   box-shadow: 1px 3px 8px -4px rgba(0,0,0,0.4);
   margin-bottom: 2rem;
-  /* 1st way */
   width: calc(23% - 0.5rem);
   margin: 0 1rem;
   margin-bottom: 2rem;
 }
-/* .container .main .card:nth-child(4) {
-  margin-right: 0;
-} */
+.container .main .loading {
+  width: 100%;
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 5rem;
+}
 .container .main .card img {
   width: 100%;
   height: 11rem;

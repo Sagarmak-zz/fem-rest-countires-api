@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.4.0/css/all.css" />
 
   <title>Frontend Mentor | Rest Countries API</title>
 </head>
@@ -31,31 +32,22 @@
       </div>
     </div>
     <div class="main flex align-center flex-wrap">
-      <div class="card">
-        <img src="./design/afg.svg" alt="">
-        <div class="card-details">
-          <div class="title fs-1_2 bold pb-1">Dummy card</div>
-          <div>
-            <div class="pb-0_4">
-              <span class="bold">Population:</span>
-              <span>12, 345, 678</span>
-            </div>
-            <div class="pb-0_4">
-              <span class="bold">Region:</span>
-              <span>No Region</span>
-            </div>
-            <div class="pb-0_4">
-              <span class="bold">Capital:</span>
-              <span>No Capital</span>
-            </div>
-          </div>
-        </div>
+      <div class="loading">
+        <i class="fas fa-circle-notch fa-spin"></i>
       </div>
+      <!-- <div class="error">
+        There might be some issue fetching data.
+      </div> -->
+      <!-- <div class="no-result">
+        Sorry, no result found!
+      </div> -->
     </div>
   </div>
   <script>
     let countries;
     const url = 'https://restcountries.eu/rest/v2/all';
+    
+    let loadingState = document.querySelector('.container .main .loading');
 
     function fetchAllCountries() {
 
@@ -64,7 +56,7 @@
       xhr.open('GET', url, true);
 
       xhr.onprogress = function() {
-        // loading state
+        loadingState.classList.add('d-block');
       }
 
       xhr.onload = function() {
@@ -96,6 +88,7 @@
             </div>
             `
           });
+          loadingState.classList.add('d-none');
           let mainSection = document.querySelector('.main').innerHTML = countriesCards;
         }
       }
