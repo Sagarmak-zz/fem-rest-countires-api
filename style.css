@@ -121,10 +121,10 @@ body {
   margin: 0 1rem;
   margin-bottom: 2rem;
 }
-.container .main .loading {
+.container .main .loading, .error, .no-result {
   width: 100%;
   text-align: center;
-  font-size: 3rem;
+  font-size: 2rem;
   margin-top: 5rem;
 }
 .container .main .card img {

@@ -31,23 +31,16 @@
         </select>
       </div>
     </div>
-    <div class="main flex align-center flex-wrap">
-      <div class="loading">
-        <i class="fas fa-circle-notch fa-spin"></i>
-      </div>
-      <!-- <div class="error">
-        There might be some issue fetching data.
-      </div> -->
-      <!-- <div class="no-result">
-        Sorry, no result found!
-      </div> -->
-    </div>
+    <!-- main content goes here -->
+    <div class="main flex align-center flex-wrap"></div>
   </div>
   <script>
     let countries;
     const url = 'https://restcountries.eu/rest/v2/all';
+    // const url = 'https://restcountries.eu/rest/v2/name/afgee';
     
     let loadingState = document.querySelector('.container .main .loading');
+    let noResultState = document.querySelector('.container .main .no-result');
 
     function fetchAllCountries() {
 
@@ -56,10 +49,15 @@
       xhr.open('GET', url, true);
 
       xhr.onprogress = function() {
-        loadingState.classList.add('d-block');
+        let noResultOutput = '';
+        noResultOutput = `<div class="loading">
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </div>` 
+        let mainSection = document.querySelector('.main').innerHTML = noResultOutput;
       }
 
       xhr.onload = function() {
+
         if (this.status == 200) {
           countries = JSON.parse(this.responseText);
 
@@ -88,12 +86,26 @@
             </div>
             `
           });
-          loadingState.classList.add('d-none');
           let mainSection = document.querySelector('.main').innerHTML = countriesCards;
+        } else if (xhr.status == 404) {
+          // data not found
+          let noResultOutput = '';
+          noResultOutput = `
+          <div class="no-result">
+            Sorry, no result found!
+          </div>
+          `
+          let mainSection = document.querySelector('.main').innerHTML = noResultOutput;
         }
       }
       xhr.onerror = function() {
-        console.log('err');
+        let errorOutput = '';
+        errorOutput = `
+        <div class="error">
+          There might be some issue fetching data.
+        </div>
+        `
+        let mainSection = document.querySelector('.main').innerHTML = errorOutput;
       }
 
       xhr.send();
