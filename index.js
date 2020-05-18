@@ -1,10 +1,11 @@
+// list of all the countries
 let countries;
-// all countries
-const url = "https://restcountries.eu/rest/v2/all";
-// name-wise countries
-const namedCountries = 'https://restcountries.eu/rest/v2/name/afg';
-// region-wise countries
-const regionalCountries = 'https://restcountries.eu/rest/v2/region/europe';
+
+// all countries url
+const defaultURL = "https://restcountries.eu/rest/v2/all";
+
+let searchByCountry = '';
+let regionalCountries = 'all';
 
 // place content inside this section
 let mainSection = document.querySelector(".main");
@@ -13,13 +14,13 @@ let mainSection = document.querySelector(".main");
 // 1st, initialize the object
 let xhr = new XMLHttpRequest();
 
-// 2nd, fill in the details in the object
-// OPEN - type, url, async
-xhr.open("GET", url, true);
+function xhrOpenConnection(url) {
+  // 2nd, fill in the details in the object
+  // OPEN - type, url, async
+  xhr.open("GET", url, true);
+}
 
-
-function fetchAllCountries() {
-
+function xhrOnProgressConnection() {
   // 3rd, if api loading
   xhr.onprogress = function () {
     let noResultOutput = "";
@@ -28,7 +29,9 @@ function fetchAllCountries() {
         </div>`;
     mainSection.innerHTML = noResultOutput;
   };
+}
 
+function xhrOnLoadConnection() {
   // 4th, what should happen when data loads
   xhr.onload = function () {
     if (this.status == 200) {
@@ -71,7 +74,9 @@ function fetchAllCountries() {
       mainSection.innerHTML = noResultOutput;
     }
   };
+}
 
+function xhrOnErrorConnection() {
   // 5th, if error while api fetching
   xhr.onerror = function () {
     let errorOutput = "";
@@ -82,14 +87,61 @@ function fetchAllCountries() {
         `;
     mainSection.innerHTML = errorOutput;
   };
+}
 
+function xhrSendConnection() {
   xhr.send();
 }
 
-function fetchSearchedCountries() {
-  // 
+
+function fetchAllCountries() {
+  xhrOpenConnection(getUrl());
+  xhrOnProgressConnection();
+  xhrOnLoadConnection();
+  xhrOnErrorConnection();
+  xhrSendConnection();
+}
+
+function fetchSearchedCountries(event) {
+  searchByCountry = event.target.value;
+  xhrOpenConnection(getUrl());
+  xhrOnProgressConnection();
+  xhrOnLoadConnection();
+  xhrOnErrorConnection();
+  xhrSendConnection();
 }
 
 function fetchRegionalCountries() {
+  regionalCountries = event.target.value;  
+  xhrOpenConnection(getUrl());
+  xhrOnProgressConnection();
+  xhrOnLoadConnection();
+  xhrOnErrorConnection();
+  xhrSendConnection();
+}
 
+function getUrl() {
+  if (searchByCountry) {
+    if (!searchByCountry.length) {
+      return defaultURL;
+    } else {
+      return getSearchedCountriesURL(searchByCountry);
+    }
+  } else if (regionalCountries) {
+    if (regionalCountries == 'all') {
+      return defaultURL;
+    } else {
+      return getRegionalCountriesURL(regionalCountries);
+    }
+  } else {
+    return defaultURL;
+  }
+}
+
+function getSearchedCountriesURL(searchedCountry) {
+  return `https://restcountries.eu/rest/v2/name/${searchedCountry}`;
+}
+
+function getRegionalCountriesURL(regionalCountry) {
+  return `https://restcountries.eu/rest/v2/region/${regionalCountry}`;
 }

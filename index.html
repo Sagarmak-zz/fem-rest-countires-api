@@ -17,10 +17,10 @@
   <div class="container">
     <div class="header flex justify-between align-items">
       <div class="input-text">
-        <input type="text" name="search" placeholder="Search for a country...">
+        <input type="text" name="search" placeholder="Search for a country..." oninput="fetchSearchedCountries(event)">
       </div>
       <div class="input-select">
-        <select name="select" form="carform">
+        <select name="select" onchange="fetchRegionalCountries()">
           <!-- <option value="" selected hidden="hidden">Filter by Region</option> -->
           <option value="all">Region: All</option>
           <option value="africa">Africa</option>
