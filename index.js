@@ -4,12 +4,11 @@ let countries;
 // all countries url
 const defaultURL = "https://restcountries.eu/rest/v2/all";
 
-let searchByCountry = '';
-let regionalCountries = 'all';
+let searchByCountry = "";
+let regionalCountries = "all";
 
 // place content inside this section
 let mainSection = document.querySelector(".main");
-
 
 // 1st, initialize the object
 let xhr = new XMLHttpRequest();
@@ -38,10 +37,11 @@ function xhrOnLoadConnection() {
       countries = JSON.parse(this.responseText);
 
       let countriesCards = "";
-      countries.forEach((country) => {
+      countries.forEach((country, i) => {
         countriesCards += `
             <div class="card">
-              <img src="${country.flag}" alt="">
+              <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
+                src="./placeholder-image/placeholder-365x215.gif" />
               <div class="card-details">
                 <div class="title fs-1_2 bold pb-1">${country.name}</div>
                   <div>
@@ -63,6 +63,8 @@ function xhrOnLoadConnection() {
             `;
       });
       mainSection.innerHTML = countriesCards;
+
+      lazyLoadImages();
     } else if (xhr.status == 404) {
       // data not found
       let noResultOutput = "";
@@ -93,7 +95,6 @@ function xhrSendConnection() {
   xhr.send();
 }
 
-
 function fetchAllCountries() {
   xhrOpenConnection(getUrl());
   xhrOnProgressConnection();
@@ -112,7 +113,7 @@ function fetchSearchedCountries(event) {
 }
 
 function fetchRegionalCountries() {
-  regionalCountries = event.target.value;  
+  regionalCountries = event.target.value;
   xhrOpenConnection(getUrl());
   xhrOnProgressConnection();
   xhrOnLoadConnection();
@@ -128,7 +129,7 @@ function getUrl() {
       return getSearchedCountriesURL(searchByCountry);
     }
   } else if (regionalCountries) {
-    if (regionalCountries == 'all') {
+    if (regionalCountries == "all") {
       return defaultURL;
     } else {
       return getRegionalCountriesURL(regionalCountries);
@@ -144,4 +145,51 @@ function getSearchedCountriesURL(searchedCountry) {
 
 function getRegionalCountriesURL(regionalCountry) {
   return `https://restcountries.eu/rest/v2/region/${regionalCountry}`;
+}
+
+function lazyLoadImages() {
+  // all the image elements
+  const images = document.querySelectorAll(".container .main .card img");
+  
+  // options to pass to IntersectionObserver
+  // it tells, the viewport(root) to check 
+  // if the viewport has reached 0.15(15%) of the image
+  // then load the image itself
+  const options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.15,
+  };
+
+  /* 
+  * what happens when the 15% of the image has been detected
+  * it will fire the callback funtion
+  * to take the images from data-img and set to image's src - preloadimage funciton
+  * and then to unobserve the image element
+  */
+  const callback = (entries, imageOvserver) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        return;
+      } else {
+        preloadImage(entry.target);
+        imageOvserver.unobserve(entry.target);
+      }
+    });
+  };
+
+  let preloadImage = (entryTargetImage) => {
+    const src = entryTargetImage.getAttribute("data-img");
+    if (!src) {
+      return;
+    }
+    entryTargetImage.src = src;
+  };
+
+  const imageObserver = new IntersectionObserver(callback, options);
+
+  // loop the image elements to observe
+  images.forEach((image, i) => {
+    imageObserver.observe(image);
+  });
 }
