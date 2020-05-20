@@ -40,25 +40,27 @@ function xhrOnLoadConnection() {
       countries.forEach((country, i) => {
         countriesCards += `
             <div class="card">
-              <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
-                src="./placeholder-image/placeholder-365x215.gif" />
-              <div class="card-details">
-                <div class="title fs-1_2 bold pb-1">${country.name}</div>
-                  <div>
-                    <div class="pb-0_4">
-                      <span class="bold">Population:</span>
-                      <span>${country.population}</span>
-                    </div>
-                    <div class="pb-0_4">
-                      <span class="bold">Region:</span>
-                      <span>${country.region}</span>
-                    </div>
-                    <div class="pb-0_4">
-                      <span class="bold">Capital:</span>
-                      <span>${country.capital}</span>
-                    </div>
+              <a href="./countryDetailPage.html">
+                <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
+                  src="./placeholder-image/placeholder-365x215.gif" />
+                <div class="card-details">
+                  <div class="title fs-1_2 bold pb-1">${country.name}</div>
+                    <div>
+                      <div class="pb-0_4">
+                        <span class="bold">Population:</span>
+                        <span>${country.population}</span>
+                      </div>
+                      <div class="pb-0_4">
+                        <span class="bold">Region:</span>
+                        <span>${country.region}</span>
+                      </div>
+                      <div class="pb-0_4">
+                        <span class="bold">Capital:</span>
+                        <span>${country.capital}</span>
+                      </div>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
             `;
       });
