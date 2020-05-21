@@ -248,35 +248,35 @@ function renderSecondPage(countryCode) {
         <div class="title bold fs-2 pb-1">${countryDetails.name}</div>
         <div class="description">
           <div class="info">
-            <span class="subtitle bold">Native Name</span>
+            <span class="subtitle bold">Native Name:</span>
             <span class="value">${countryDetails.nativeName}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Population</span>
+            <span class="subtitle bold">Population:</span>
             <span class="value">${countryDetails.population}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Region</span>
+            <span class="subtitle bold">Region:</span>
             <span class="value">${countryDetails.region}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Sub Region</span>
+            <span class="subtitle bold">Sub Region:</span>
             <span class="value">${countryDetails.subregion}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Capital</span>
+            <span class="subtitle bold">Capital:</span>
             <span class="value">${countryDetails.capital}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Top Level Domain</span>
+            <span class="subtitle bold">Top Level Domain:</span>
             <span class="value">${countryDetails.topLevelDomain}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Currencies</span>
+            <span class="subtitle bold">Currencies:</span>
             <span class="value">${currencies}</span>
           </div>
           <div class="info">
-            <span class="subtitle bold">Languages</span>
+            <span class="subtitle bold">Languages:</span>
             <span class="value">${languages}</span>
           </div>
         </div>
@@ -293,5 +293,8 @@ function renderSecondPage(countryCode) {
 }
 
 function backButtonAction() {
-  // 
+  body.classList.remove('white-bg');
+  headerSection.classList.remove('d-none');
+  mainSection.classList.remove('d-none');
+  secondPage.classList.add('d-none');
 }
