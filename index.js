@@ -227,10 +227,12 @@ function renderSecondPage(countryCode) {
       acc += (languages.length != index+1) ? ', ' : '';
       return acc;
     }, '');
-    const borders = countryDetails.borders.reduce((acc, border, index, borders) => {
-      acc += `<span class="border-country small-card">${border}</span>`;
-      return acc;
-    }, '');
+    let borders = (!countryDetails.borders.length) ? 
+      `<span class="border-country pl-0_5">No borders</span>` : 
+      countryDetails.borders.reduce((acc, border, index, borders) => {
+        acc += `<span class="border-country small-card">${border}</span>`;
+        return acc;
+      }, '');
 
     // render the page here
     content = `
