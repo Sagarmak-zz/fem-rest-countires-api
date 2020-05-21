@@ -41,28 +41,26 @@ function xhrOnLoadConnection() {
       let countriesCards = "";
       countries.forEach((country, i) => {
         countriesCards += `
-            <div class="card">
-              <a onclick="renderSecondPage('${country.alpha3Code}')">
-                <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
-                  src="./placeholder-image/placeholder-365x215.gif" />
-                <div class="card-details">
-                  <div class="title fs-1_2 bold pb-1">${country.name}</div>
-                    <div>
-                      <div class="pb-0_4">
-                        <span class="bold">Population:</span>
-                        <span>${country.population}</span>
-                      </div>
-                      <div class="pb-0_4">
-                        <span class="bold">Region:</span>
-                        <span>${country.region}</span>
-                      </div>
-                      <div class="pb-0_4">
-                        <span class="bold">Capital:</span>
-                        <span>${country.capital}</span>
-                      </div>
-                  </div>
+            <div class="card" onclick="renderSecondPage('${country.alpha3Code}')">
+              <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
+                src="./placeholder-image/placeholder-365x215.gif" />
+              <div class="card-details">
+                <div class="title fs-1_2 bold pb-1">${country.name}</div>
+                  <div>
+                    <div class="pb-0_4">
+                      <span class="bold">Population:</span>
+                      <span>${country.population}</span>
+                    </div>
+                    <div class="pb-0_4">
+                      <span class="bold">Region:</span>
+                      <span>${country.region}</span>
+                    </div>
+                    <div class="pb-0_4">
+                      <span class="bold">Capital:</span>
+                      <span>${country.capital}</span>
+                    </div>
                 </div>
-              </a>
+              </div>
             </div>
             `;
       });
@@ -100,14 +98,14 @@ function xhrSendConnection() {
 }
 
 function fetchAllCountries() {
-  // body.classList.add('white-bg');
-  // mainSection.classList.remove('d-none');
-  // secondPage.classList.add('d-none');
+  headerSection.classList.remove('d-none');
+  mainSection.classList.remove('d-none');
+  
   xhrOpenConnection(getUrl());
   xhrOnProgressConnection();
   xhrOnLoadConnection();
   xhrOnErrorConnection();
-  // xhrSendConnection();
+  xhrSendConnection();
 }
 
 function fetchSearchedCountries(event) {
@@ -204,6 +202,7 @@ function lazyLoadImages() {
 function renderSecondPage(countryCode) {
   const countryUrl = `https://restcountries.eu/rest/v2/alpha/${countryCode}`;
   let countryDetails = {};
+  let content = '';
 
   xhrOpenConnection(countryUrl);
   xhr.onprogress = function () {
@@ -211,13 +210,86 @@ function renderSecondPage(countryCode) {
   }
   xhr.onload = function() {
     countryDetails = JSON.parse(this.responseText);
-    // body.classList.add('white-bg');
-    // headerSection.classList.add('d-none');
-    // mainSection.classList.add('d-none');
-    // secondPage.classList.remove('d-none');
+
+    // add/remove certain sections of the page
+    body.classList.add('white-bg');
+    headerSection.classList.add('d-none');
+    mainSection.classList.add('d-none');
+    secondPage.classList.remove('d-none');
+
+    const currencies = countryDetails.currencies.reduce((acc, currency, index, currencies) => {
+      acc += currency.name;
+      acc += (currencies.length != index+1) ? ', ' : '';
+      return acc;
+    }, '');
+    const languages = countryDetails.languages.reduce((acc, language, index, languages) => {
+      acc += language.name;
+      acc += (languages.length != index+1) ? ', ' : '';
+      return acc;
+    }, '');
+    const borders = countryDetails.borders.reduce((acc, border, index, borders) => {
+      acc += `<span class="border-country small-card">${border}</span>`;
+      return acc;
+    }, '');
+
     // render the page here
+    content = `
+    <div class="header-button">
+      <button class="white-bg" onclick="backButtonAction()">
+        <i class="fas fa-arrow-left"></i>
+        <span class="pl-0_5">Back</span>
+      </button>
+    </div>
+    <div class="content flex">
+      <div class="flag">
+        <img src="${countryDetails.flag}" alt="Image">
+      </div>
+      <div class="content-area">
+        <div class="title bold fs-2 pb-1">${countryDetails.name}</div>
+        <div class="description">
+          <div class="info">
+            <span class="subtitle bold">Native Name</span>
+            <span class="value">${countryDetails.nativeName}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Population</span>
+            <span class="value">${countryDetails.population}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Region</span>
+            <span class="value">${countryDetails.region}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Sub Region</span>
+            <span class="value">${countryDetails.subregion}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Capital</span>
+            <span class="value">${countryDetails.capital}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Top Level Domain</span>
+            <span class="value">${countryDetails.topLevelDomain}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Currencies</span>
+            <span class="value">${currencies}</span>
+          </div>
+          <div class="info">
+            <span class="subtitle bold">Languages</span>
+            <span class="value">${languages}</span>
+          </div>
+        </div>
+        <div class="borders">
+          <div class="bold">Border Countries:</div>
+          ${borders}
+        </div>
+      </div>
+    </div>
+    `;
+    secondPage.innerHTML = content;
   };
-  xhr.send();
+  xhrSendConnection();
 }
 
 function backButtonAction() {
