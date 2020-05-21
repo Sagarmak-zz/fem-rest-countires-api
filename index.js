@@ -7,8 +7,10 @@ const defaultURL = "https://restcountries.eu/rest/v2/all";
 let searchByCountry = "";
 let regionalCountries = "all";
 
-// place content inside this section
+let body = document.querySelector("body");
 let mainSection = document.querySelector(".main");
+let headerSection = document.querySelector(".header");
+let secondPage = document.querySelector(".second-page");
 
 // 1st, initialize the object
 let xhr = new XMLHttpRequest();
@@ -40,7 +42,7 @@ function xhrOnLoadConnection() {
       countries.forEach((country, i) => {
         countriesCards += `
             <div class="card">
-              <a href="./countryDetailPage.html">
+              <a onclick="renderSecondPage('${country.alpha3Code}')">
                 <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
                   src="./placeholder-image/placeholder-365x215.gif" />
                 <div class="card-details">
@@ -98,11 +100,14 @@ function xhrSendConnection() {
 }
 
 function fetchAllCountries() {
+  // body.classList.add('white-bg');
+  // mainSection.classList.remove('d-none');
+  // secondPage.classList.add('d-none');
   xhrOpenConnection(getUrl());
   xhrOnProgressConnection();
   xhrOnLoadConnection();
   xhrOnErrorConnection();
-  xhrSendConnection();
+  // xhrSendConnection();
 }
 
 function fetchSearchedCountries(event) {
@@ -191,7 +196,30 @@ function lazyLoadImages() {
   const imageObserver = new IntersectionObserver(callback, options);
 
   // loop the image elements to observe
-  images.forEach((image, i) => {
-    imageObserver.observe(image);
-  });
+  images.forEach((image) => imageObserver.observe(image));
+}
+
+
+// Second Page
+function renderSecondPage(countryCode) {
+  const countryUrl = `https://restcountries.eu/rest/v2/alpha/${countryCode}`;
+  let countryDetails = {};
+
+  xhrOpenConnection(countryUrl);
+  xhr.onprogress = function () {
+    // 
+  }
+  xhr.onload = function() {
+    countryDetails = JSON.parse(this.responseText);
+    // body.classList.add('white-bg');
+    // headerSection.classList.add('d-none');
+    // mainSection.classList.add('d-none');
+    // secondPage.classList.remove('d-none');
+    // render the page here
+  };
+  xhr.send();
+}
+
+function backButtonAction() {
+  // 
 }
