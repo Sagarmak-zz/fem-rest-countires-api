@@ -102,6 +102,9 @@ body {
 .navbar .nav-title {
   font-size: 1.4rem;
 }
+.navbar .nav-subtitle {
+  cursor: pointer;
+}
 
 .container .header {
   /*  */
