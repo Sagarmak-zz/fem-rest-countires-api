@@ -207,3 +207,35 @@ a {
 a:focus {
   color: inherit;
 }
+
+@media all and (max-width: 550px) {
+  .navbar {
+    padding: 1rem;
+  }
+  .navbar .nav-title {
+    font-size: 1rem;
+  }
+  .navbar .nav-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .container {
+    padding: 2rem 0;
+    width: 90%;
+  }
+  .container .header {
+    flex-wrap: wrap;
+  }
+  .container .header input {
+    width: 20rem;
+  }
+  .container .header .input-select {
+    margin-top: 1.5rem;
+  }
+
+  .container .main .card {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+}
