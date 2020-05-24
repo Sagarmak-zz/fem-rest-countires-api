@@ -39,11 +39,12 @@ function xhrOnLoadConnection() {
       countries = JSON.parse(this.responseText);
 
       let countriesCards = "";
+      // <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
+      //   src="./placeholder-image/placeholder-365x215.gif" />
       countries.forEach((country, i) => {
         countriesCards += `
             <div class="card" onclick="renderSecondPage('${country.alpha3Code}')">
-              <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
-                src="./placeholder-image/placeholder-365x215.gif" />
+              <img src="${country.flag}" id="image_${i}" alt="${country.name}_flag" />
               <div class="card-details">
                 <div class="title fs-1_2 bold pb-1">${country.name}</div>
                   <div>
@@ -66,7 +67,8 @@ function xhrOnLoadConnection() {
       });
       mainSection.innerHTML = countriesCards;
 
-      lazyLoadImages();
+      // lazyLoadImages();
+      lazyLoadCards();
     } else if (xhr.status == 404) {
       // data not found
       let noResultOutput = "";
@@ -152,6 +154,31 @@ function getRegionalCountriesURL(regionalCountry) {
   return `https://restcountries.eu/rest/v2/region/${regionalCountry}`;
 }
 
+function lazyLoadCards() {
+  const cards = document.querySelectorAll(".main .card");
+
+  const options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.8
+  };
+
+  const callback = (cardEntries, cardObserver) => {
+    cardEntries.forEach((cardEntry) => {
+      if (!cardEntry.isIntersecting) {
+        return;
+      } else {
+        // preload cards
+        cardObserver.unobserve(cardEntry.target);
+      }
+    });
+  };
+
+  const cardObserver = new IntersectionObserver(callback, options);
+  
+  cards.forEach((card) => cardObserver.observe(card));
+}
+
 function lazyLoadImages() {
   // all the image elements
   const images = document.querySelectorAll(".container .main .card img");
@@ -172,13 +199,14 @@ function lazyLoadImages() {
   * to take the images from data-img and set to image's src - preloadimage funciton
   * and then to unobserve the image element
   */
-  const callback = (entries, imageOvserver) => {
+  const callback = (entries, imageObserver) => {
+    console.log("callback -> entries", entries);
     entries.forEach((entry) => {
       if (!entry.isIntersecting) {
         return;
       } else {
         preloadImage(entry.target);
-        imageOvserver.unobserve(entry.target);
+        imageObserver.unobserve(entry.target);
       }
     });
   };
