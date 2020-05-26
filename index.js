@@ -300,3 +300,11 @@ function backButtonAction() {
   mainSection.classList.remove('d-none');
   secondPage.classList.add('d-none');
 }
+
+function toggleDarkMode() {
+  // navbar
+  // background
+  // card color
+  // black to white text
+  // icon change
+}
