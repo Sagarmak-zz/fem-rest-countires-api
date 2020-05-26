@@ -41,7 +41,7 @@ function xhrOnLoadConnection() {
       let countriesCards = "";
       countries.forEach((country, i) => {
         countriesCards += `
-            <div class="card" onclick="renderSecondPage('${country.alpha3Code}')">
+            <div class="card card-white" onclick="renderSecondPage('${country.alpha3Code}')">
               <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
                 src="./placeholder-image/placeholder-365x215.gif" />
               <div class="card-details">
@@ -237,7 +237,7 @@ function renderSecondPage(countryCode) {
     // render the page here
     content = `
     <div class="header-button">
-      <button class="white-bg" onclick="backButtonAction()">
+      <button class="white-bg dark-font" onclick="backButtonAction()">
         <i class="fas fa-arrow-left"></i>
         <span class="pl-0_5">Back</span>
       </button>
@@ -302,9 +302,73 @@ function backButtonAction() {
 }
 
 function toggleDarkMode() {
+  let checkbox = document.querySelector('.navbar .nav-subtitle input[type=checkbox]');
+  checkbox.checked = !checkbox.checked;
+  
+  let body = document.body;
+  let navbar = document.querySelector('body .navbar');
+  let lightCards = document.querySelectorAll('.card.card-white');
+  let darkCards = document.querySelectorAll('.card.card-dark');
+  let icon = document.querySelector('.nav-subtitle i');
+  let inputText = document.querySelector('.container .header .input-text input[type=text]');
+  let select = document.querySelector('select');
+  let secondPageWithDisplayNone = document.querySelector('.container .second-page.d-none');
+  let whiteBackButton = document.querySelector('.container .second-page .header-button button.white-bg');
+  let darkBackButton = document.querySelector('.container .second-page .header-button button.input-dark');
+
+  // body and color
+  body.classList.toggle('dark-bg');
+  body.classList.toggle('white-font');
+
   // navbar
-  // background
-  // card color
-  // black to white text
-  // icon change
+  navbar.classList.toggle('navbar-dark');
+
+  // input
+  inputText.classList.toggle('input-dark');
+  select.classList.toggle('input-dark');
+  
+  // change color inside input
+  select.classList.toggle('white-font');
+
+  if (checkbox.checked) {
+    // light cards to dark
+    lightCards.forEach((card) => {
+      card.classList.remove('card-white');
+      card.classList.add('card-dark');
+    });
+
+    // icon change
+    icon.classList.remove('far');
+    icon.classList.add('fas');
+
+    if (!secondPageWithDisplayNone) {
+      // back button
+      whiteBackButton.classList.remove('white-bg');
+      whiteBackButton.classList.remove('dark-font');
+      whiteBackButton.classList.add('input-dark');
+      whiteBackButton.classList.add('white-font');
+    }
+
+    // input.classList.add('input-dark');
+  } else {
+    // dark cards to light
+    darkCards.forEach((card) => {
+      card.classList.remove('card-dark');
+      card.classList.add('card-white');
+    });
+
+    // icon change
+    icon.classList.remove('fas');
+    icon.classList.add('far');
+
+    if (!secondPageWithDisplayNone) {
+      // back button
+      darkBackButton.classList.remove('input-dark');
+      darkBackButton.classList.remove('white-font');
+      darkBackButton.classList.add('white-bg');
+      darkBackButton.classList.add('dark-font');
+    }
+
+    // input.classList.remove('input-dark');
+  }
 }

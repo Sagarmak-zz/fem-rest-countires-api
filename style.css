@@ -16,6 +16,8 @@ body {
   line-height: 1;
   font-family: 'Nunito Sans', sans-serif;
   font-size: 14px;
+  background: #fafafa;
+  color: #2b3945;
 }
 
 /* Helper */
@@ -77,13 +79,27 @@ body {
   background: #2b3945
 }
 
-.white-color {
+.card-white {
+  background: white;
+}
+.card-dark {
+  background: #2b3945
+}
+
+.input-white {
+  background: white;
+}
+.input-dark {
+  background: #2b3945
+}
+
+.white-font {
   color: white;
 }
-.dark-color {
+.dark-font {
   color: #2b3945;
 }
-.grey-color {
+.grey-font {
   color: lightgray;
 }
 
@@ -145,7 +161,6 @@ body {
   margin: 2rem 0;
 }
 .container .main .card {
-  background: white;
   border-radius: 5px;
   box-shadow: 1px 3px 8px -4px rgba(0,0,0,0.4);
   margin-bottom: 2rem;

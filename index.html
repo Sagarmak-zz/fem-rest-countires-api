@@ -9,12 +9,13 @@
 
   <title>Frontend Mentor | Rest Countries API</title>
 </head>
-<body class="light-bg dark-color" onload="fetchAllCountries()">
-  <div class="navbar white-bg flex justify-between align-center">
+<body onload="fetchAllCountries()">
+  <div class="navbar navbar-white flex justify-between align-center">
     <a class="bold nav-title">Where in the world?</a>
     <a class="bold nav-subtitle" onclick="toggleDarkMode()">
       <i class="far fa-moon"></i>
       <span>Dark Mode</span>
+      <input type="checkbox" class="d-none" />
     </a>
   </div>
   <div class="container">
