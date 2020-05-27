@@ -11,6 +11,7 @@ let body = document.querySelector("body");
 let mainSection = document.querySelector(".main");
 let headerSection = document.querySelector(".header");
 let secondPage = document.querySelector(".second-page");
+let secondPageContent = document.querySelector(".second-page .content");
 
 // 1st, initialize the object
 let xhr = new XMLHttpRequest();
@@ -41,28 +42,28 @@ function xhrOnLoadConnection() {
       let countriesCards = "";
       countries.forEach((country, i) => {
         countriesCards += `
-            <div class="card card-white" onclick="renderSecondPage('${country.alpha3Code}')">
-              <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
-                src="./placeholder-image/placeholder-365x215.gif" />
-              <div class="card-details">
-                <div class="title fs-1_2 bold pb-1">${country.name}</div>
-                  <div>
-                    <div class="pb-0_4">
-                      <span class="bold">Population:</span>
-                      <span>${country.population}</span>
-                    </div>
-                    <div class="pb-0_4">
-                      <span class="bold">Region:</span>
-                      <span>${country.region}</span>
-                    </div>
-                    <div class="pb-0_4">
-                      <span class="bold">Capital:</span>
-                      <span>${country.capital}</span>
-                    </div>
+        <div class="card card-white" onclick="renderSecondPage('${country.alpha3Code}')">
+          <img data-img="${country.flag}" id="image_${i}" alt="${country.name}_flag" 
+            src="./placeholder-image/placeholder-365x215.gif" />
+          <div class="card-details">
+            <div class="title fs-1_2 bold pb-1">${country.name}</div>
+              <div>
+                <div class="pb-0_4">
+                  <span class="bold">Population:</span>
+                  <span>${country.population}</span>
                 </div>
-              </div>
+                <div class="pb-0_4">
+                  <span class="bold">Region:</span>
+                  <span>${country.region}</span>
+                </div>
+                <div class="pb-0_4">
+                  <span class="bold">Capital:</span>
+                  <span>${country.capital}</span>
+                </div>
             </div>
-            `;
+          </div>
+        </div>
+        `;
       });
       mainSection.innerHTML = countriesCards;
 
@@ -236,12 +237,6 @@ function renderSecondPage(countryCode) {
 
     // render the page here
     content = `
-    <div class="header-button">
-      <button class="white-bg dark-font" onclick="backButtonAction()">
-        <i class="fas fa-arrow-left"></i>
-        <span class="pl-0_5">Back</span>
-      </button>
-    </div>
     <div class="content flex">
       <div class="flag">
         <img src="${countryDetails.flag}" alt="Image">
@@ -289,7 +284,7 @@ function renderSecondPage(countryCode) {
       </div>
     </div>
     `;
-    secondPage.innerHTML = content;
+    secondPageContent.innerHTML = content;
   };
   xhrSendConnection();
 }
@@ -341,13 +336,11 @@ function toggleDarkMode() {
     icon.classList.remove('far');
     icon.classList.add('fas');
 
-    if (!secondPageWithDisplayNone) {
-      // back button
-      whiteBackButton.classList.remove('white-bg');
-      whiteBackButton.classList.remove('dark-font');
-      whiteBackButton.classList.add('input-dark');
-      whiteBackButton.classList.add('white-font');
-    }
+    // back button
+    whiteBackButton.classList.remove('white-bg');
+    whiteBackButton.classList.remove('dark-font');
+    whiteBackButton.classList.add('input-dark');
+    whiteBackButton.classList.add('white-font');
 
     // input.classList.add('input-dark');
   } else {
@@ -361,13 +354,11 @@ function toggleDarkMode() {
     icon.classList.remove('fas');
     icon.classList.add('far');
 
-    if (!secondPageWithDisplayNone) {
-      // back button
-      darkBackButton.classList.remove('input-dark');
-      darkBackButton.classList.remove('white-font');
-      darkBackButton.classList.add('white-bg');
-      darkBackButton.classList.add('dark-font');
-    }
+    // back button
+    darkBackButton.classList.remove('input-dark');
+    darkBackButton.classList.remove('white-font');
+    darkBackButton.classList.add('white-bg');
+    darkBackButton.classList.add('dark-font');
 
     // input.classList.remove('input-dark');
   }
